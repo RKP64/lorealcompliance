@@ -38,10 +38,10 @@ st.markdown(
 st.sidebar.header("Settings")
 selected_model = st.sidebar.selectbox(
     "Select Model:",
-    ["llama-3.3-70b-versatile", "deepseek-r1-distill-llama-70b", "mixtral-8x7b-32768", "gemma2-9b-it"]
+    ["llama-3.3-70b-versatile", "deepseek-r1-distill-llama-70b", "mixtral-8x7b-32768", "gemma2-9b-it","llama-3.1-8b-instant"]
 )
 temperature = st.sidebar.slider("Temperature", 0.0, 1.0, 0.3)
-max_context_length = st.sidebar.number_input("Max Context Length (tokens):", 1000, 8000, 3000)
+max_context_length = st.sidebar.number_input("Max Context Length (tokens):", 1000, 25000, 3000)
 
 ##############################
 # Section 1: Guidelines Upload
