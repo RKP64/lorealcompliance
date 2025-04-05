@@ -111,4 +111,5 @@ typing-inspect
 tzdata                    
 urllib3                   
 watchdog                  
-yarl                   
+yarl   
+openpyxl
