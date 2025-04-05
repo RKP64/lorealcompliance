@@ -1,33 +1,48 @@
 import streamlit as st
-import pandas as pd
 from PyPDF2 import PdfReader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import FAISS
 from langchain_groq import ChatGroq
+import pandas as pd
 
-# Load API keys from Streamlit secrets
-groq_api_key = st.secrets["GROQ_API_KEY"]
-openai_api_key = st.secrets["OPENAI_API_KEY"]
+# Hardcoded API keys (replace with your actual keys)
+groq_api_key = "your_groq_api_key_here"
+openai_api_key = "your_openai_api_key_here"
 
 # Initialize Streamlit page
 st.set_page_config(page_title="Compliance Assistant", layout="wide")
 
-# Custom CSS for a sleek design
+# Custom CSS for Sleek Design
 st.markdown(
     """
     <style>
-    body { background-color: #f7f9fc; }
-    .stButton>button {
-        background-color: #4caf50; color: white; border: none;
-        border-radius: 5px; padding: 8px 15px; font-size: 14px; margin: 5px; cursor: pointer;
+    body {
+        background-color: #f7f9fc;
     }
-    .stButton>button:hover { background-color: #45a049; }
+    .stButton>button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 15px;
+        font-size: 14px;
+        margin: 5px;
+        cursor: pointer;
+    }
+    .stButton>button:hover {
+        background-color: #45a049;
+    }
     .response-box {
-        background-color: #ffffff; border-radius: 10px; padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        font-family: Arial, sans-serif; font-size: 16px; color: #333333;
-        line-height: 1.6; margin-bottom: 20px;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        color: #333333;
+        line-height: 1.6;
+        margin-bottom: 20px;
     }
     </style>
     """,
@@ -36,12 +51,10 @@ st.markdown(
 
 # Sidebar: Settings
 st.sidebar.header("Settings")
-selected_model = st.sidebar.selectbox(
-    "Select Model:",
-    ["llama-3.3-70b-versatile", "deepseek-r1-distill-llama-70b", "mixtral-8x7b-32768", "gemma2-9b-it"]
-)
+selected_model = st.sidebar.selectbox("Select Model:", 
+    ["llama-3.3-70b-versatile", "deepseek-r1-distill-llama-70b", "mixtral-8x7b-32768", "gemma2-9b-it","llama-3.1-8b-instant"])
 temperature = st.sidebar.slider("Temperature", 0.0, 1.0, 0.3)
-max_context_length = st.sidebar.number_input("Max Context Length (tokens):", 1000, 8000, 3000)
+max_context_length = st.sidebar.number_input("Max Context Length (tokens):", 3000, 150000, 9000)
 
 ##############################
 # Section 1: Guidelines Upload
@@ -69,7 +82,7 @@ if guidelines_files:
     embeddings = OpenAIEmbeddings(api_key=openai_api_key)
     guidelines_vector_store = FAISS.from_texts(guideline_chunks, embeddings)
     
-    # Store the guidelines vector store in session state for future use
+    # Store the guidelines vector store in session state so it persists
     st.session_state["guidelines_vector_store"] = guidelines_vector_store
 else:
     st.info("Please upload your guideline PDFs. They will be stored for future compliance checks.")
