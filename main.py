@@ -105,10 +105,10 @@ selected_guidelines = guidelines_dict.get(platform, "No guidelines available for
 ##############################################
 # Section 1 (Optional): Upload Guideline PDFs
 ##############################################
-st.header("Step 1 (Optional): Upload Additional Guideline PDFs")
+st.header("Step 1 (Optional): Upload Additional Guideline")
 st.write(
     "If you have more detailed PDFs for this platform, upload them here. "
-    "They'll be indexed and retrieved to augment the hardcoded guidelines."
+    "."
 )
 guidelines_files = st.file_uploader("Upload Guideline PDF(s):", type="pdf", accept_multiple_files=True, key="guidelines")
 
@@ -134,7 +134,7 @@ if guidelines_files:
     
     st.session_state["guidelines_vector_store"] = guidelines_vector_store
 else:
-    st.info("No additional PDFs uploaded. Relying on hardcoded guidelines only.")
+    st.info("No additional PDFs uploaded.")
 
 ###############################################################
 # Section 2: Upload CSV/Excel & Sample Data for Compliance Check
